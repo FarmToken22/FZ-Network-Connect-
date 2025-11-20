@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>অ্যাডমিন প্যানেল</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    body {
+      font-family: 'Segoe UI', 'Noto Sans Bengali', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* Header */
+    .header {
+      background: #ffffff;
+      padding: 15px 30px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .header-left {display: flex; align-items: center; gap: 15px;}
+    .admin-badge {
+      background: #000000;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .user-info {display: flex; align-items: center; gap: 12px;}
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .user-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: #111827;
+    }
+    
+    /* Main Container */
+    .main-container {
+      display: flex;
+      height: calc(100vh - 70px);
+    }
+    
+    /* Users Sidebar */
+    .users-sidebar {
+      width: 320px;
+      background: #ffffff;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .sidebar-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 5px;
+    }
+    .sidebar-header p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    
+    .users-search {
+      padding: 15px 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .users-search input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: #f9fafb;
+    }
+    .users-search input:focus {
+      border-color: #000000;
+      background: #ffffff;
+    }
+    
+    .users-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+    }
+    .users-list::-webkit-scrollbar {width: 6px;}
+    .users-list::-webkit-scrollbar-track {background: #f9fafb;}
+    .users-list::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+    .users-list::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+    
+    .user-item {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid transparent;
+    }
+    .user-item:hover {
+      background: #f9fafb;
+      border-color: #e5e7eb;
+    }
+    .user-item.active {
+      background: #f3f4f6;
+      border-color: #000000;
+    }
+    .user-item-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .user-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .user-item-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #111827;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .user-item-email {
+      font-size: 12px;
+      color: #6b7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-item-badge {
+      background: #000000;
+      color: white;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
+    }
+    
+    .empty-users {
+      text-align: center;
+      padding: 60px 20px;
+      color: #9ca3af;
+    }
+    .empty-users-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    
+    /* Chat Container */
+    .chat-container {
+      flex: 1;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chat-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    .chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-header-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .chat-header-details h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+    .chat-header-details p {
+      font-size: 13px;
+      color: #6b7280;
+    }
+    .chat-actions button {
+      background: #f3f4f6;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.2s;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    .chat-actions button:hover {
+      background: #e5e7eb;
+      border-color: #d1d5db;
+    }
+    
+    #messages-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px;
+      list-style: none;
+      background: #f9fafb;
+    }
+    #messages-list::-webkit-scrollbar {width: 8px;}
+    #messages-list::-webkit-scrollbar-track {background: #f9fafb;}
+    #messages-list::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 4px;
+    }
+    #messages-list::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+    
+    #messages-list li {
+      margin-bottom: 16px;
+      display: flex;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    .message-wrapper {
+      max-width: 65%;
+      display: flex;
+      flex-direction: column;
+    }
+    .message-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .message-sender {
+      font-weight: 600;
+      font-size: 13px;
+      color: #374151;
+    }
+    .message-role {
+      background: #000000;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .message-content {
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      word-wrap: break-word;
+      color: #111827;
+      line-height: 1.5;
+      position: relative;
+    }
+    .message-delete {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ef4444;
+      color: white;
+      border: 2px solid white;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .message-delete:hover {
+      background: #dc2626;
+      transform: scale(1.1);
+    }
+    .message-wrapper:hover .message-delete {
+      display: flex;
+    }
+    .message-time {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+    
+    .own-message {
+      justify-content: flex-end;
+    }
+    .own-message .message-wrapper {
+      align-items: flex-end;
+    }
+    .own-message .message-content {
+      background: #000000;
+      color: white;
+      border-color: #000000;
+    }
+    
+    .other-message {
+      justify-content: flex-start;
+    }
+    .other-message .message-wrapper {
+      align-items: flex-start;
+    }
+    
+    #message-form {
+      padding: 20px 25px;
+      background: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      gap: 12px;
+    }
+    #message-input {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: #ffffff;
+    }
+    #message-input:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+    #send-btn {
+      background: #000000;
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans Bengali', sans-serif;
+    }
+    #send-btn:hover {
+      background: #1f2937;
+    }
+    #send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+
+    
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #f3f4f6;
+      border-top: 4px solid #000000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+    #loading p {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    .select-user-prompt {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      color: #9ca3af;
+      text-align: center;
+      padding: 50px;
+      background: #f9fafb;
+    }
+    .select-user-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+    .select-user-prompt h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: #6b7280;
+      font-weight: 600;
+    }
+    .select-user-prompt p {
+      font-size: 14px;
+      color: #9ca3af;
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      .users-sidebar {
+        width: 100%;
+        max-height: 40vh;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .chat-container {
+        height: 60vh;
+      }
+      .message-wrapper {
+        max-width: 80%;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <p>লোড হচ্ছে...</p>
+  </div>
+  
+  <div id="main-content" style="display:none;">
+    <div class="header">
+      <div class="header-left">
+        <span class="admin-badge">👑 অ্যাডমিন প্যানেল</span>
+      </div>
+      <div class="user-info">
+        <div class="user-avatar" id="admin-avatar"></div>
+        <span class="user-name" id="admin-name"></span>
+      </div>
+    </div>
+    
+    <div class="main-container">
+      <!-- Users Sidebar -->
+      <div class="users-sidebar">
+        <div class="sidebar-header">
+          <h3>ইউজার লিস্ট</h3>
+          <p id="users-count">0 জন ইউজার</p>
+        </div>
+        <div class="users-search">
+          <input type="text" id="search-users" placeholder="🔍 ইউজার খুঁজুন..." />
+        </div>
+        <div class="users-list" id="users-list">
+          <div class="empty-users">
+            <div class="empty-users-icon">👥</div>
+            <p>এখনো কোনো ইউজার নেই</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Chat Container -->
+      <div class="chat-container">
+        <div id="select-user-view" class="select-user-prompt">
+          <div class="select-user-icon">💬</div>
+          <h3>একটি ইউজার সিলেক্ট করুন</h3>
+          <p>বামদিক থেকে একটি ইউজার সিলেক্ট করে চ্যাট শুরু করুন</p>
+        </div>
+        
+        <div id="chat-view" style="display:none; height:100%; flex-direction:column; display:flex;">
+          <div class="chat-header">
+            <div class="chat-header-info">
+              <div class="chat-header-avatar" id="selected-user-avatar"></div>
+              <div class="chat-header-details">
+                <h3 id="selected-user-name"></h3>
+                <p id="selected-user-email"></p>
+              </div>
+            </div>
+            <div class="chat-actions">
+              <button onclick="clearCurrentChat()">🗑️ Clear</button>
+              <button onclick="refreshCurrentChat()">🔄 Refresh</button>
+            </div>
+          </div>
+          <ul id="messages-list"></ul>
+          <form id="message-form">
+            <input id="message-input" placeholder="আপনার মেসেজ লিখুন..." autocomplete="off" disabled />
+            <button type="submit" id="send-btn" disabled>পাঠান 📤</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ADMIN_UID = null;
+    let currentSelectedUser = null;
+    let allUsers = new Map();
+    let currentMessagesRef = null;
+
+    function fetchAdminId() {
+      return database.ref('admitId').once('value')
+        .then((snapshot) => {
+          ADMIN_UID = snapshot.val();
+          console.log('Admin UID loaded:', ADMIN_UID);
+          return ADMIN_UID;
+        })
+        .catch((error) => {
+          console.error('Error fetching admin ID:', error);
+          alert('Admin ID লোড করতে সমস্যা হয়েছে!');
+          return null;
+        });
+    }
+
+    function isAdmin(uid) {
+      return uid === ADMIN_UID;
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      await fetchAdminId();
+      
+      if (!user || !isAdmin(user.uid)) {
+        document.getElementById("loading").style.display = "none";
+        alert("Access Denied — শুধু অ্যাডমিন!");
+        if (user) auth.signOut();
+        window.location.href = "login.html";
+        return;
+      }
+      
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+      
+      const displayName = user.displayName || user.email.split("@")[0];
+      document.getElementById("admin-name").textContent = displayName;
+      document.getElementById("admin-avatar").textContent = displayName.charAt(0).toUpperCase();
+      
+      loadUsers();
+    });
+
+    function loadUsers() {
+      database.ref("supportMessages").on("child_added", snapshot => {
+        const msg = snapshot.val();
+        if (msg.uid !== ADMIN_UID && !allUsers.has(msg.uid)) {
+          allUsers.set(msg.uid, {
+            uid: msg.uid,
+            name: msg.name || msg.email.split("@")[0],
+            email: msg.email,
+            lastMessage: msg.message,
+            timestamp: msg.timestamp,
+            messageCount: 1
+          });
+          updateUsersList();
+        } else if (msg.uid !== ADMIN_UID) {
+          const user = allUsers.get(msg.uid);
+          user.messageCount++;
+          user.lastMessage = msg.message;
+          user.timestamp = msg.timestamp;
+          allUsers.set(msg.uid, user);
+          updateUsersList();
+        }
+      });
+    }
+
+    function updateUsersList() {
+      const usersList = document.getElementById("users-list");
+      const usersArray = Array.from(allUsers.values()).sort((a, b) => b.timestamp - a.timestamp);
+      
+      if (usersArray.length === 0) {
+        usersList.innerHTML = '<div class="empty-users"><div class="empty-users-icon">👥</div><p>এখনো কোনো ইউজার নেই</p></div>';
+        document.getElementById("users-count").textContent = "0 জন ইউজার";
+        return;
+      }
+      
+      document.getElementById("users-count").textContent = `${usersArray.length} জন ইউজার`;
+      
+      usersList.innerHTML = usersArray.map(user => `
+        <div class="user-item ${currentSelectedUser?.uid === user.uid ? 'active' : ''}" 
+             onclick="selectUser('${user.uid}')">
+          <div class="user-item-avatar">${user.name.charAt(0).toUpperCase()}</div>
+          <div class="user-item-info">
+            <div class="user-item-name">${escapeHtml(user.name)}</div>
+            <div class="user-item-email">${escapeHtml(user.email)}</div>
+          </div>
+          <div class="user-item-badge">${user.messageCount}</div>
+        </div>
+      `).join('');
+    }
+
+    window.selectUser = function(userId) {
+      const user = allUsers.get(userId);
+      if (!user) return;
+      
+      currentSelectedUser = user;
+      
+      document.getElementById("select-user-view").style.display = "none";
+      document.getElementById("chat-view").style.display = "flex";
+      
+      document.getElementById("selected-user-name").textContent = user.name;
+      document.getElementById("selected-user-email").textContent = user.email;
+      document.getElementById("selected-user-avatar").textContent = user.name.charAt(0).toUpperCase();
+      
+      document.getElementById("message-input").disabled = false;
+      document.getElementById("send-btn").disabled = false;
+      
+      updateUsersList();
+      loadMessagesForUser(userId);
+    };
+
+    function loadMessagesForUser(userId) {
+      const messagesList = document.getElementById("messages-list");
+      messagesList.innerHTML = '';
+      
+      if (currentMessagesRef) {
+        currentMessagesRef.off();
+      }
+      
+      currentMessagesRef = database.ref("supportMessages").orderByChild("timestamp");
+      
+      currentMessagesRef.on("child_added", snapshot => {
+        const msg = snapshot.val();
+        const msgKey = snapshot.key;
+        
+        if (msg.uid === userId || (msg.uid === ADMIN_UID && msg.replyTo === userId)) {
+          const li = document.createElement("li");
+          const isOwn = msg.uid === ADMIN_UID;
+          li.className = isOwn ? "own-message" : "other-message";
+          
+          const sender = msg.name || msg.email || "Unknown";
+          const roleText = msg.role === "admin" ? '<span class="message-role">অ্যাডমিন</span>' : '';
+          const time = new Date(msg.timestamp).toLocaleString('bn-BD', {
+            hour: '2-digit',
+            minute: '2-digit',
+            day: '2-digit',
+            month: 'short'
+          });
+          
+          li.innerHTML = `
+            <div class="message-wrapper">
+              <div class="message-header">
+                <span class="message-sender">${escapeHtml(sender)}</span>
+                ${roleText}
+              </div>
+              <div class="message-content">
+                ${escapeHtml(msg.message)}
+                <div class="message-delete" onclick="deleteMessage('${msgKey}')">✕</div>
+              </div>
+              <div class="message-time">${time}</div>
+            </div>
+          `;
+          
+          messagesList.appendChild(li);
+          messagesList.scrollTop = messagesList.scrollHeight;
+        }
+      });
+    }
+
+    document.getElementById("message-form").onsubmit = e => {
+      e.preventDefault();
+      if (!currentSelectedUser) return;
+      
+      const text = document.getElementById("message-input").value.trim();
+      if (!text) return;
+      
+      database.ref("supportMessages").push({
+        uid: auth.currentUser.uid,
+        name: auth.currentUser.displayName || auth.currentUser.email.split("@")[0],
+        email: auth.currentUser.email,
+        message: text,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        role: "admin",
+        replyTo: currentSelectedUser.uid
+      });
+      
+      document.getElementById("message-input").value = "";
+    };
+
+    document.getElementById("search-users").oninput = (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const userItems = document.querySelectorAll('.user-item');
+      
+      userItems.forEach(item => {
+        const name = item.querySelector('.user-item-name').textContent.toLowerCase();
+        const email = item.querySelector('.user-item-email').textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || email.includes(searchTerm)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    };
+
+    function clearCurrentChat() {
+      if (!currentSelectedUser) return;
+      if (!confirm(`${currentSelectedUser.name} এর সাথে সমস্ত চ্যাট মুছে ফেলবেন?`)) return;
+      
+      database.ref("supportMessages").once('value').then(snapshot => {
+        const updates = {};
+        snapshot.forEach(child => {
+          const msg = child.val();
+          if (msg.uid === currentSelectedUser.uid || msg.replyTo === currentSelectedUser.uid) {
+            updates[child.key] = null;
+          }
+        });
+        return database.ref("supportMessages").update(updates);
+      }).then(() => {
+        document.getElementById("messages-list").innerHTML = '';
+      });
+    }
+
+    function refreshCurrentChat() {
+      if (!currentSelectedUser) return;
+      loadMessagesForUser(currentSelectedUser.uid);
+    }
+
+    window.deleteMessage = function(messageKey) {
+      if (confirm('এই মেসেজটি ডিলিট করবেন?')) {
+        database.ref("supportMessages").child(messageKey).remove()
+          .then(() => {
+            console.log('Message deleted successfully');
+          })
+          .catch((error) => {
+            alert('মেসেজ ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
+          });
+      }
+    };
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
