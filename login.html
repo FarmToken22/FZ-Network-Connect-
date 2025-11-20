@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>FZ Network - লগইন</title>
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    
+    body {
+      font-family: 'Segoe UI', 'Noto Sans Bengali', Tahoma, Geneva, Verdana, sans-serif;
+      background: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    .main-container {
+      width: 100%;
+      max-width: 440px;
+    }
+    
+    /* Logo Section */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 0.6s ease;
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: #000000;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 22px;
+    }
+    
+    .logo-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+    
+    .logo-subtitle {
+      font-size: 15px;
+      color: #6b7280;
+      font-weight: 400;
+    }
+    
+    @keyframes fadeInDown {
+      from {opacity: 0; transform: translateY(-20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    /* Container */
+    .container {
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 10px 40px rgba(0, 0, 0, 0.05);
+      animation: fadeInUp 0.6s ease;
+      border: 1px solid #f3f4f6;
+    }
+    
+    @keyframes fadeInUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 30px;
+      background: #f9fafb;
+      padding: 4px;
+      border-radius: 10px;
+    }
+    
+    .tab {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans Bengali', sans-serif;
+    }
+    
+    .tab.active {
+      background: #000000;
+      color: #ffffff;
+    }
+    
+    /* Forms */
+    .form-section {
+      display: none;
+    }
+    
+    .form-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    
+    .form-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 24px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: all 0.2s;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: #ffffff;
+    }
+    
+    input:focus {
+      border-color: #000000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    input::placeholder {
+      color: #9ca3af;
+    }
+    
+    /* Password Toggle */
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 18px;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    
+    .password-toggle:hover {
+      color: #111827;
+    }
+    
+    /* Password Strength */
+    .password-strength {
+      margin-top: 8px;
+      height: 3px;
+      background: #e5e7eb;
+      border-radius: 2px;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .password-strength.show {
+      display: block;
+    }
+    
+    .password-strength-bar {
+      height: 100%;
+      width: 0%;
+      transition: all 0.3s;
+      border-radius: 2px;
+    }
+    
+    .strength-weak {background: #ef4444; width: 33%;}
+    .strength-medium {background: #f59e0b; width: 66%;}
+    .strength-strong {background: #10b981; width: 100%;}
+    
+    .password-hint {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+    
+    /* Buttons */
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: #000000;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans Bengali', sans-serif;
+      margin-top: 24px;
+    }
+    
+    button[type="submit"]:hover {
+      background: #1f2937;
+      transform: translateY(-1px);
+    }
+    
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+    
+    button[type="submit"]:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    /* Forgot Password */
+    .forgot-password {
+      text-align: right;
+      margin-top: 12px;
+    }
+    
+    .forgot-password a {
+      font-size: 13px;
+      color: #6b7280;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .forgot-password a:hover {
+      color: #111827;
+      text-decoration: underline;
+    }
+    
+    /* Loading */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .loading-overlay.show {
+      display: flex;
+    }
+    
+    .loading-content {
+      text-align: center;
+    }
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #000000;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+    
+    .loading-text {
+      font-size: 15px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+    
+    /* Alert */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+    
+    @keyframes slideDown {
+      from {opacity: 0; transform: translateY(-10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    
+    .alert.show {
+      display: block;
+    }
+    
+    .alert-error {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+    
+    .alert-success {
+      background: #d1fae5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+    
+    .alert-info {
+      background: #dbeafe;
+      color: #2563eb;
+      border: 1px solid #bfdbfe;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 13px;
+      color: #9ca3af;
+    }
+    
+    .footer a {
+      color: #111827;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+      
+      .container {
+        padding: 30px 24px;
+      }
+      
+      .logo-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+      }
+      
+      .logo-text {
+        font-size: 24px;
+      }
+      
+      .logo-subtitle {
+        font-size: 14px;
+      }
+      
+      .form-title {
+        font-size: 18px;
+      }
+      
+      input {
+        padding: 11px 14px;
+        font-size: 14px;
+      }
+      
+      button[type="submit"] {
+        padding: 13px;
+        font-size: 14px;
+      }
+    }
+    
+    @media (max-width: 360px) {
+      .container {
+        padding: 24px 20px;
+      }
+      
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      
+      .logo-text {
+        font-size: 22px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <div class="loading-text">লোড হচ্ছে...</div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo">
+        <div class="logo-icon">FZ</div>
+        <div class="logo-text">FZ Network</div>
+      </div>
+      <div class="logo-subtitle">আপনার বিশ্বস্ত সাপোর্ট পার্টনার</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Alert Message -->
+      <div id="alert" class="alert"></div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="login">লগ ইন</button>
+        <button class="tab" data-tab="signup">সাইন আপ</button>
+      </div>
+
+      <!-- Login Form -->
+      <div class="form-section active" id="login-section">
+        <h2 class="form-title">আপনার অ্যাকাউন্টে প্রবেশ করুন</h2>
+        
+        <form id="login-form">
+          <div class="input-group">
+            <label class="input-label">ইমেইল</label>
+            <div class="input-wrapper">
+              <input 
+                id="login-email" 
+                type="email" 
+                placeholder="আপনার ইমেইল লিখুন"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">পাসওয়ার্ড</label>
+            <div class="input-wrapper">
+              <input 
+                id="login-password" 
+                type="password" 
+                placeholder="আপনার পাসওয়ার্ড লিখুন"
+                required
+                autocomplete="current-password"
+              />
+              <button type="button" class="password-toggle" data-target="login-password">
+                👁️
+              </button>
+            </div>
+            <div class="forgot-password">
+              <a href="#" id="forgot-password-link">পাসওয়ার্ড ভুলে গেছেন?</a>
+            </div>
+          </div>
+
+          <button type="submit">লগ ইন করুন</button>
+        </form>
+      </div>
+
+      <!-- Signup Form -->
+      <div class="form-section" id="signup-section">
+        <h2 class="form-title">নতুন অ্যাকাউন্ট তৈরি করুন</h2>
+        
+        <form id="signup-form">
+          <div class="input-group">
+            <label class="input-label">আপনার নাম</label>
+            <div class="input-wrapper">
+              <input 
+                id="signup-name" 
+                type="text" 
+                placeholder="পুরো নাম লিখুন"
+                required
+                autocomplete="name"
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">ইমেইল</label>
+            <div class="input-wrapper">
+              <input 
+                id="signup-email" 
+                type="email" 
+                placeholder="আপনার ইমেইল লিখুন"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">পাসওয়ার্ড</label>
+            <div class="input-wrapper">
+              <input 
+                id="signup-password" 
+                type="password" 
+                placeholder="শক্তিশালী পাসওয়ার্ড তৈরি করুন (৬+ অক্ষর)"
+                required
+                autocomplete="new-password"
+              />
+              <button type="button" class="password-toggle" data-target="signup-password">
+                👁️
+              </button>
+            </div>
+            <div class="password-strength" id="password-strength">
+              <div class="password-strength-bar" id="strength-bar"></div>
+            </div>
+            <div class="password-hint">কমপক্ষে ৬টি অক্ষর ব্যবহার করুন</div>
+          </div>
+
+          <button type="submit">সাইন আপ করুন</button>
+        </form>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        সমস্যা হচ্ছে? <a href="#" id="help-link">সাহায্য নিন</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ADMIN_UID = null;
+    let adminIdPromise = null;
+
+    // Firebase থেকে Admin UID fetch করা
+    function fetchAdminId() {
+      if (adminIdPromise) return adminIdPromise;
+      
+      adminIdPromise = database.ref('admitId').once('value')
+        .then((snapshot) => {
+          ADMIN_UID = snapshot.val();
+          return ADMIN_UID;
+        })
+        .catch((error) => {
+          console.error('Error fetching admin ID:', error);
+          adminIdPromise = null;
+          return null;
+        });
+      
+      return adminIdPromise;
+    }
+
+    // Admin check করার function
+    async function isAdmin(uid) {
+      if (!ADMIN_UID) {
+        await fetchAdminId();
+      }
+      return uid === ADMIN_UID;
+    }
+
+    // Show alert
+    function showAlert(message, type = 'error') {
+      const alert = document.getElementById('alert');
+      alert.textContent = message;
+      alert.className = `alert alert-${type} show`;
+      
+      setTimeout(() => {
+        alert.classList.remove('show');
+      }, 5000);
+    }
+
+    // Show/hide loading
+    function showLoading(show = true) {
+      const overlay = document.getElementById('loading-overlay');
+      if (show) {
+        overlay.classList.add('show');
+      } else {
+        overlay.classList.remove('show');
+      }
+    }
+
+    // Redirect user
+    async function redirectUser(user) {
+      try {
+        showLoading(true);
+        const adminStatus = await isAdmin(user.uid);
+        
+        if (adminStatus) {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "user.html";
+        }
+      } catch (error) {
+        showLoading(false);
+        console.error('Redirect error:', error);
+        showAlert('একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+      }
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.dataset.tab;
+        
+        // Update tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        
+        // Update forms
+        document.querySelectorAll('.form-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        document.getElementById(`${targetTab}-section`).classList.add('active');
+        
+        // Clear alert
+        document.getElementById('alert').classList.remove('show');
+      });
+    });
+
+    // Password toggle
+    document.querySelectorAll('.password-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.dataset.target;
+        const input = document.getElementById(targetId);
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          btn.textContent = '🙈';
+        } else {
+          input.type = 'password';
+          btn.textContent = '👁️';
+        }
+      });
+    });
+
+    // Password strength checker
+    const signupPassword = document.getElementById('signup-password');
+    const strengthIndicator = document.getElementById('password-strength');
+    const strengthBar = document.getElementById('strength-bar');
+
+    signupPassword.addEventListener('input', (e) => {
+      const password = e.target.value;
+      
+      if (password.length === 0) {
+        strengthIndicator.classList.remove('show');
+        return;
+      }
+      
+      strengthIndicator.classList.add('show');
+      
+      let strength = 0;
+      if (password.length >= 6) strength++;
+      if (password.length >= 10) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[^a-zA-Z\d]/.test(password)) strength++;
+      
+      strengthBar.className = 'password-strength-bar';
+      
+      if (strength <= 2) {
+        strengthBar.classList.add('strength-weak');
+      } else if (strength <= 4) {
+        strengthBar.classList.add('strength-medium');
+      } else {
+        strengthBar.classList.add('strength-strong');
+      }
+    });
+
+    // Login form
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      
+      if (!email || !password) {
+        showAlert('সব তথ্য পূরণ করুন');
+        return;
+      }
+      
+      showLoading(true);
+      
+      auth.signInWithEmailAndPassword(email, password)
+        .then(cred => redirectUser(cred.user))
+        .catch(err => {
+          showLoading(false);
+          let message = 'লগইন ব্যর্থ হয়েছে';
+          
+          if (err.code === 'auth/user-not-found') {
+            message = 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই';
+          } else if (err.code === 'auth/wrong-password') {
+            message = 'ভুল পাসওয়ার্ড দিয়েছেন';
+          } else if (err.code === 'auth/invalid-email') {
+            message = 'সঠিক ইমেইল লিখুন';
+          } else if (err.code === 'auth/too-many-requests') {
+            message = 'অনেকবার চেষ্টা করেছেন। কিছুক্ষণ পর আবার চেষ্টা করুন';
+          }
+          
+          showAlert(message);
+        });
+    });
+
+    // Signup form
+    document.getElementById('signup-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+      
+      if (!name || !email || !password) {
+        showAlert('সব তথ্য পূরণ করুন');
+        return;
+      }
+      
+      if (password.length < 6) {
+        showAlert('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
+        return;
+      }
+      
+      showLoading(true);
+      
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(cred => cred.user.updateProfile({displayName: name}).then(() => cred))
+        .then(cred => {
+          showAlert('অ্যাকাউন্ট তৈরি সফল হয়েছে!', 'success');
+          setTimeout(() => redirectUser(cred.user), 1000);
+        })
+        .catch(err => {
+          showLoading(false);
+          let message = 'সাইন আপ ব্যর্থ হয়েছে';
+          
+          if (err.code === 'auth/email-already-in-use') {
+            message = 'এই ইমেইল দিয়ে ইতিমধ্যে অ্যাকাউন্ট আছে';
+          } else if (err.code === 'auth/invalid-email') {
+            message = 'সঠিক ইমেইল লিখুন';
+          } else if (err.code === 'auth/weak-password') {
+            message = 'আরও শক্তিশালী পাসওয়ার্ড ব্যবহার করুন';
+          }
+          
+          showAlert(message);
+        });
+    });
+
+    // Forgot password
+    document.getElementById('forgot-password-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('login-email').value.trim();
+      
+      if (!email) {
+        showAlert('প্রথমে আপনার ইমেইল লিখুন', 'info');
+        document.getElementById('login-email').focus();
+        return;
+      }
+      
+      showLoading(true);
+      
+      auth.sendPasswordResetEmail(email)
+        .then(() => {
+          showLoading(false);
+          showAlert('পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে', 'success');
+        })
+        .catch(err => {
+          showLoading(false);
+          let message = 'পাসওয়ার্ড রিসেট ব্যর্থ হয়েছে';
+          
+          if (err.code === 'auth/user-not-found') {
+            message = 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই';
+          } else if (err.code === 'auth/invalid-email') {
+            message = 'সঠিক ইমেইল লিখুন';
+          }
+          
+          showAlert(message);
+        });
+    });
+
+    // Help link
+    document.getElementById('help-link').addEventListener('click', (e) => {
+      e.preventDefault();
+      showAlert('সাহায্যের জন্য আমাদের সাথে যোগাযোগ করুন', 'info');
+    });
+
+    // Check if user already logged in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        redirectUser(user);
+      } else {
+        showLoading(false);
+      }
+    });
+
+    // Prevent zoom on input focus (iOS)
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('focus', function() {
+        if (window.innerWidth < 768) {
+          this.style.fontSize = '16px';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
