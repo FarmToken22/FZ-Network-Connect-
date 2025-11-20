@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>FZ Network - লগইন</title>
+  <title>FZ Network - Login</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box;}
     
     body {
-      font-family: 'Segoe UI', 'Noto Sans Bengali', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #ffffff;
       min-height: 100vh;
       display: flex;
@@ -103,7 +103,6 @@
       color: #6b7280;
       cursor: pointer;
       transition: all 0.2s;
-      font-family: 'Noto Sans Bengali', sans-serif;
     }
     
     .tab.active {
@@ -157,7 +156,6 @@
       font-size: 15px;
       outline: none;
       transition: all 0.2s;
-      font-family: 'Noto Sans Bengali', sans-serif;
       background: #ffffff;
     }
     
@@ -233,7 +231,6 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
-      font-family: 'Noto Sans Bengali', sans-serif;
       margin-top: 24px;
     }
     
@@ -374,57 +371,20 @@
     
     /* Responsive */
     @media (max-width: 480px) {
-      body {
-        padding: 16px;
-      }
-      
-      .container {
-        padding: 30px 24px;
-      }
-      
-      .logo-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 20px;
-      }
-      
-      .logo-text {
-        font-size: 24px;
-      }
-      
-      .logo-subtitle {
-        font-size: 14px;
-      }
-      
-      .form-title {
-        font-size: 18px;
-      }
-      
-      input {
-        padding: 11px 14px;
-        font-size: 14px;
-      }
-      
-      button[type="submit"] {
-        padding: 13px;
-        font-size: 14px;
-      }
+      body {padding: 16px;}
+      .container {padding: 30px 24px;}
+      .logo-icon {width: 44px; height: 44px; font-size: 20px;}
+      .logo-text {font-size: 24px;}
+      .logo-subtitle {font-size: 14px;}
+      .form-title {font-size: 18px;}
+      input {padding: 11px 14px; font-size: 14px;}
+      button[type="submit"] {padding: 13px; font-size: 14px;}
     }
     
     @media (max-width: 360px) {
-      .container {
-        padding: 24px 20px;
-      }
-      
-      .logo-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-      }
-      
-      .logo-text {
-        font-size: 22px;
-      }
+      .container {padding: 24px 20px;}
+      .logo-icon {width: 40px; height: 40px; font-size: 18px;}
+      .logo-text {font-size: 22px;}
     }
   </style>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -437,7 +397,7 @@
   <div class="loading-overlay" id="loading-overlay">
     <div class="loading-content">
       <div class="spinner"></div>
-      <div class="loading-text">লোড হচ্ছে...</div>
+      <div class="loading-text">Loading...</div>
     </div>
   </div>
 
@@ -448,7 +408,7 @@
         <div class="logo-icon">FZ</div>
         <div class="logo-text">FZ Network</div>
       </div>
-      <div class="logo-subtitle">আপনার বিশ্বস্ত সাপোর্ট পার্টনার</div>
+      <div class="logo-subtitle">Your Trusted Support Partner</div>
     </div>
 
     <!-- Main Container -->
@@ -458,109 +418,75 @@
 
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab active" data-tab="login">লগ ইন</button>
-        <button class="tab" data-tab="signup">সাইন আপ</button>
+        <button class="tab active" data-tab="login">Log In</button>
+        <button class="tab" data-tab="signup">Sign Up</button>
       </div>
 
       <!-- Login Form -->
       <div class="form-section active" id="login-section">
-        <h2 class="form-title">আপনার অ্যাকাউন্টে প্রবেশ করুন</h2>
+        <h2 class="form-title">Welcome back! Please log in</h2>
         
         <form id="login-form">
           <div class="input-group">
-            <label class="input-label">ইমেইল</label>
+            <label class="input-label">Email</label>
             <div class="input-wrapper">
-              <input 
-                id="login-email" 
-                type="email" 
-                placeholder="আপনার ইমেইল লিখুন"
-                required
-                autocomplete="email"
-              />
+              <input id="login-email" type="email" placeholder="Enter your email" required autocomplete="email" />
             </div>
           </div>
 
           <div class="input-group">
-            <label class="input-label">পাসওয়ার্ড</label>
+            <label class="input-label">Password</label>
             <div class="input-wrapper">
-              <input 
-                id="login-password" 
-                type="password" 
-                placeholder="আপনার পাসওয়ার্ড লিখুন"
-                required
-                autocomplete="current-password"
-              />
-              <button type="button" class="password-toggle" data-target="login-password">
-                👁️
-              </button>
+              <input id="login-password" type="password" placeholder="Enter your password" required autocomplete="current-password" />
+              <button type="button" class="password-toggle" data-target="login-password">Show</button>
             </div>
             <div class="forgot-password">
-              <a href="#" id="forgot-password-link">পাসওয়ার্ড ভুলে গেছেন?</a>
+              <a href="#" id="forgot-password-link">Forgot password?</a>
             </div>
           </div>
 
-          <button type="submit">লগ ইন করুন</button>
+          <button type="submit">Log In</button>
         </form>
       </div>
 
       <!-- Signup Form -->
       <div class="form-section" id="signup-section">
-        <h2 class="form-title">নতুন অ্যাকাউন্ট তৈরি করুন</h2>
+        <h2 class="form-title">Create a new account</h2>
         
         <form id="signup-form">
           <div class="input-group">
-            <label class="input-label">আপনার নাম</label>
+            <label class="input-label">Full Name</label>
             <div class="input-wrapper">
-              <input 
-                id="signup-name" 
-                type="text" 
-                placeholder="পুরো নাম লিখুন"
-                required
-                autocomplete="name"
-              />
+              <input id="signup-name" type="text" placeholder="Enter your full name" required autocomplete="name" />
             </div>
           </div>
 
           <div class="input-group">
-            <label class="input-label">ইমেইল</label>
+            <label class="input-label">Email</label>
             <div class="input-wrapper">
-              <input 
-                id="signup-email" 
-                type="email" 
-                placeholder="আপনার ইমেইল লিখুন"
-                required
-                autocomplete="email"
-              />
+              <input id="signup-email" type="email" placeholder="Enter your email" required autocomplete="email" />
             </div>
           </div>
 
           <div class="input-group">
-            <label class="input-label">পাসওয়ার্ড</label>
+            <label class="input-label">Password</label>
             <div class="input-wrapper">
-              <input 
-                id="signup-password" 
-                type="password" 
-                placeholder="শক্তিশালী পাসওয়ার্ড তৈরি করুন (৬+ অক্ষর)"
-                required
-                autocomplete="new-password"
-              />
-              <button type="button" class="password-toggle" data-target="signup-password">
-                👁️
-              </button>
+              <input id="signup-password" type="password" placeholder="Create a strong password (6+ characters)" required autocomplete="new-password" />
+              <button type="button" class="password-toggle" data-target="signup-password">Show</button>
             </div>
             <div class="password-strength" id="password-strength">
               <div class="password-strength-bar" id="strength-bar"></div>
             </div>
-            <div class="password-hint">কমপক্ষে ৬টি অক্ষর ব্যবহার করুন</div>
+            <div class="password-hint">Use at least 6 characters</div>
           </div>
 
-          <button type="submit">সাইন আপ করুন</button>
+          <button type="submit">Sign Up</button>
         </form>
       </div>
 
       <!-- Footer -->
       <div class="footer">
-        সমস্যা হচ্ছে? <a href="#" id="help-link">সাহায্য নিন</a>
+        Having trouble? <a href="#" id="help-link">Get Help</a>
       </div>
     </div>
   </div>
@@ -569,7 +495,6 @@
     let ADMIN_UID = null;
     let adminIdPromise = null;
 
-    // Firebase থেকে Admin UID fetch করা
     function fetchAdminId() {
       if (adminIdPromise) return adminIdPromise;
       
@@ -587,69 +512,43 @@
       return adminIdPromise;
     }
 
-    // Admin check করার function
     async function isAdmin(uid) {
-      if (!ADMIN_UID) {
-        await fetchAdminId();
-      }
+      if (!ADMIN_UID) await fetchAdminId();
       return uid === ADMIN_UID;
     }
 
-    // Show alert
     function showAlert(message, type = 'error') {
       const alert = document.getElementById('alert');
       alert.textContent = message;
       alert.className = `alert alert-${type} show`;
       
-      setTimeout(() => {
-        alert.classList.remove('show');
-      }, 5000);
+      setTimeout(() => alert.classList.remove('show'), 5000);
     }
 
-    // Show/hide loading
     function showLoading(show = true) {
       const overlay = document.getElementById('loading-overlay');
-      if (show) {
-        overlay.classList.add('show');
-      } else {
-        overlay.classList.remove('show');
-      }
+      show ? overlay.classList.add('show') : overlay.classList.remove('show');
     }
 
-    // Redirect user
     async function redirectUser(user) {
       try {
         showLoading(true);
         const adminStatus = await isAdmin(user.uid);
-        
-        if (adminStatus) {
-          window.location.href = "admin.html";
-        } else {
-          window.location.href = "user.html";
-        }
+        window.location.href = adminStatus ? "admin.html" : "user.html";
       } catch (error) {
         showLoading(false);
         console.error('Redirect error:', error);
-        showAlert('একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।');
+        showAlert('Something went wrong. Please try again.');
       }
     }
 
     // Tab switching
     document.querySelectorAll('.tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        const targetTab = tab.dataset.tab;
-        
-        // Update tabs
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        
-        // Update forms
-        document.querySelectorAll('.form-section').forEach(section => {
-          section.classList.remove('active');
-        });
-        document.getElementById(`${targetTab}-section`).classList.add('active');
-        
-        // Clear alert
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`${tab.dataset.tab}-section`).classList.add('active');
         document.getElementById('alert').classList.remove('show');
       });
     });
@@ -657,182 +556,128 @@
     // Password toggle
     document.querySelectorAll('.password-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
-        const targetId = btn.dataset.target;
-        const input = document.getElementById(targetId);
-        
+        const input = document.getElementById(btn.dataset.target);
         if (input.type === 'password') {
           input.type = 'text';
-          btn.textContent = '🙈';
+          btn.textContent = 'Hide';
         } else {
           input.type = 'password';
-          btn.textContent = '👁️';
+          btn.textContent = 'Show';
         }
       });
     });
 
-    // Password strength checker
+    // Password strength
     const signupPassword = document.getElementById('signup-password');
     const strengthIndicator = document.getElementById('password-strength');
     const strengthBar = document.getElementById('strength-bar');
 
     signupPassword.addEventListener('input', (e) => {
       const password = e.target.value;
-      
-      if (password.length === 0) {
-        strengthIndicator.classList.remove('show');
-        return;
-      }
+      if (!password) { strengthIndicator.classList.remove('show'); return; }
       
       strengthIndicator.classList.add('show');
-      
       let strength = 0;
       if (password.length >= 6) strength++;
       if (password.length >= 10) strength++;
       if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
       if (/\d/.test(password)) strength++;
       if (/[^a-zA-Z\d]/.test(password)) strength++;
-      
+
       strengthBar.className = 'password-strength-bar';
-      
-      if (strength <= 2) {
-        strengthBar.classList.add('strength-weak');
-      } else if (strength <= 4) {
-        strengthBar.classList.add('strength-medium');
-      } else {
-        strengthBar.classList.add('strength-strong');
-      }
+      if (strength <= 2) strengthBar.classList.add('strength-weak');
+      else if (strength <= 4) strengthBar.classList.add('strength-medium');
+      else strengthBar.classList.add('strength-strong');
     });
 
-    // Login form
+    // Login
     document.getElementById('login-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      
       const email = document.getElementById('login-email').value.trim();
       const password = document.getElementById('login-password').value;
-      
-      if (!email || !password) {
-        showAlert('সব তথ্য পূরণ করুন');
-        return;
-      }
-      
+
+      if (!email || !password) return showAlert('Please fill in all fields');
+
       showLoading(true);
-      
       auth.signInWithEmailAndPassword(email, password)
         .then(cred => redirectUser(cred.user))
         .catch(err => {
           showLoading(false);
-          let message = 'লগইন ব্যর্থ হয়েছে';
-          
-          if (err.code === 'auth/user-not-found') {
-            message = 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই';
-          } else if (err.code === 'auth/wrong-password') {
-            message = 'ভুল পাসওয়ার্ড দিয়েছেন';
-          } else if (err.code === 'auth/invalid-email') {
-            message = 'সঠিক ইমেইল লিখুন';
-          } else if (err.code === 'auth/too-many-requests') {
-            message = 'অনেকবার চেষ্টা করেছেন। কিছুক্ষণ পর আবার চেষ্টা করুন';
-          }
-          
-          showAlert(message);
+          let msg = 'Login failed';
+          if (err.code === 'auth/user-not-found') msg = 'No account found with this email';
+          else if (err.code === 'auth/wrong-password') msg = 'Incorrect password';
+          else if (err.code === 'auth/invalid-email') msg = 'Please enter a valid email';
+          else if (err.code === 'auth/too-many-requests') msg = 'Too many attempts. Try again later';
+          showAlert(msg);
         });
     });
 
-    // Signup form
+    // Signup
     document.getElementById('signup-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      
       const name = document.getElementById('signup-name').value.trim();
       const email = document.getElementById('signup-email').value.trim();
       const password = document.getElementById('signup-password').value;
-      
-      if (!name || !email || !password) {
-        showAlert('সব তথ্য পূরণ করুন');
-        return;
-      }
-      
-      if (password.length < 6) {
-        showAlert('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে');
-        return;
-      }
-      
+
+      if (!name || !email || !password) return showAlert('Please fill in all fields');
+      if (password.length < 6) return showAlert('Password must be at least 6 characters');
+
       showLoading(true);
-      
       auth.createUserWithEmailAndPassword(email, password)
         .then(cred => cred.user.updateProfile({displayName: name}).then(() => cred))
         .then(cred => {
-          showAlert('অ্যাকাউন্ট তৈরি সফল হয়েছে!', 'success');
+          showAlert('Account created successfully!', 'success');
           setTimeout(() => redirectUser(cred.user), 1000);
         })
         .catch(err => {
           showLoading(false);
-          let message = 'সাইন আপ ব্যর্থ হয়েছে';
-          
-          if (err.code === 'auth/email-already-in-use') {
-            message = 'এই ইমেইল দিয়ে ইতিমধ্যে অ্যাকাউন্ট আছে';
-          } else if (err.code === 'auth/invalid-email') {
-            message = 'সঠিক ইমেইল লিখুন';
-          } else if (err.code === 'auth/weak-password') {
-            message = 'আরও শক্তিশালী পাসওয়ার্ড ব্যবহার করুন';
-          }
-          
-          showAlert(message);
+          let msg = 'Sign up failed';
+          if (err.code === 'auth/email-already-in-use') msg = 'This email is already registered';
+          else if (err.code === 'auth/invalid-email') msg = 'Please enter a valid email';
+          else if (err.code === 'auth/weak-password') msg = 'Please use a stronger password';
+          showAlert(msg);
         });
     });
 
     // Forgot password
     document.getElementById('forgot-password-link').addEventListener('click', (e) => {
       e.preventDefault();
-      
       const email = document.getElementById('login-email').value.trim();
-      
       if (!email) {
-        showAlert('প্রথমে আপনার ইমেইল লিখুন', 'info');
+        showAlert('Please enter your email first', 'info');
         document.getElementById('login-email').focus();
         return;
       }
-      
       showLoading(true);
-      
       auth.sendPasswordResetEmail(email)
         .then(() => {
           showLoading(false);
-          showAlert('পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে', 'success');
+          showAlert('Password reset link sent to your email', 'success');
         })
         .catch(err => {
           showLoading(false);
-          let message = 'পাসওয়ার্ড রিসেট ব্যর্থ হয়েছে';
-          
-          if (err.code === 'auth/user-not-found') {
-            message = 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই';
-          } else if (err.code === 'auth/invalid-email') {
-            message = 'সঠিক ইমেইল লিখুন';
-          }
-          
-          showAlert(message);
+          let msg = 'Password reset failed';
+          if (err.code === 'auth/user-not-found') msg = 'No account found with this email';
+          showAlert(msg);
         });
     });
 
     // Help link
     document.getElementById('help-link').addEventListener('click', (e) => {
       e.preventDefault();
-      showAlert('সাহায্যের জন্য আমাদের সাথে যোগাযোগ করুন', 'info');
+      showAlert('Contact us for assistance', 'info');
     });
 
-    // Check if user already logged in
+    // Auto redirect if already logged in
     auth.onAuthStateChanged(user => {
-      if (user) {
-        redirectUser(user);
-      } else {
-        showLoading(false);
-      }
+      if (user) redirectUser(user);
+      else showLoading(false);
     });
 
-    // Prevent zoom on input focus (iOS)
+    // Prevent zoom on iOS
     document.querySelectorAll('input').forEach(input => {
       input.addEventListener('focus', function() {
-        if (window.innerWidth < 768) {
-          this.style.fontSize = '16px';
-        }
+        if (window.innerWidth < 768) this.style.fontSize = '16px';
       });
     });
   </script>
